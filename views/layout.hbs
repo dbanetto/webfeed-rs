@@ -2,12 +2,21 @@
 <html>
   <head>
     <title>webfeed</title>
+    <link rel="stylesheet" href="/public/style.css" type="text/css" />
+    {{~#block style}}{{/block~}}
   </head>
   <body>
-    {{~#block content}}
-    <p>
-      Default
-    </p>
-  {{/block~}}
+    <head>
+    </head>
+    <main>
+      {{~#block content}}
+      <p>
+        Default
+      </p>
+    {{/block~}}
+  </main>
+  <footer>
+    {{~#block js}}{{/block~}}
+  </footer>
 </body>
 </html>
