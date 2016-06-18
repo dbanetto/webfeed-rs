@@ -1,0 +1,26 @@
+[package]
+authors = ["David Barnett <david@barnett.net.nz>"]
+name = "webfeed"
+version = "0.1.0"
+
+[[bin]]
+name = "webfeed"
+path = "src/main.rs"
+
+[dependencies]
+handlebars-iron = "0.15.2"
+iron = "0.3.0"
+mount = "0.1.0"
+router = "0.1.1"
+rustc-serialize = "0.3.19"
+serde = "^0.7.0"
+serde_json = "^0.7.0"
+staticfile = "0.2.0"
+handlebars = "^0.16.0"
+
+[features]
+watch = ["handlebars-iron/watch"]
+
+[lib]
+name = "libwebfeed"
+path = "src/lib.rs"
