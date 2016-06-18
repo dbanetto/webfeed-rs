@@ -23,5 +23,5 @@ staticfile = "0.2.0"
 watch = ["handlebars-iron/watch"]
 
 [lib]
-name = "libwebfeed"
+name = "webfeed"
 path = "src/lib.rs"
