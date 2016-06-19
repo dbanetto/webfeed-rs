@@ -4,6 +4,7 @@ name = "webfeed"
 version = "0.1.0"
 
 [[bin]]
+doc = false
 name = "webfeed"
 path = "src/main.rs"
 
@@ -21,6 +22,7 @@ staticfile = "0.2.0"
 
 [features]
 watch = ["handlebars-iron/watch"]
+unstable = []
 
 [lib]
 name = "webfeed"
