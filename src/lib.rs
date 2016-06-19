@@ -65,7 +65,6 @@ impl WebFeed {
         hb.register_template_file("layout", &Path::new("views/layout.hbs")).ok().unwrap();
         let mut hbse = HandlebarsEngine::from(hb);
 
-        // hbse.register_template_file("template", "../views/layout.hbs");
         hbse.add(Box::new(DirectorySource::new("views", ".hbs")));
 
         // load templates from all registered sources
