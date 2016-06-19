@@ -62,7 +62,7 @@ impl WebFeed {
     pub fn start(&self, host: &str) {
         env_logger::init().unwrap();
         let mut hb = Handlebars::new();
-        hb.register_template_file("layout", &Path::new("views/layout.hbs")).ok().unwrap();
+        hb.register_template_file("layout", &Path::new("views/layout.hbs"));
         let mut hbse = HandlebarsEngine::from(hb);
 
         hbse.add(Box::new(DirectorySource::new("views", ".hbs")));
