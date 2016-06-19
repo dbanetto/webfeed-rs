@@ -9,6 +9,7 @@ name = "webfeed"
 path = "src/main.rs"
 
 [dependencies]
+clap = "2.6.0"
 env_logger = "0.3.3"
 handlebars = "^0.16.0"
 handlebars-iron = "0.15.2"
@@ -21,8 +22,8 @@ serde_json = "^0.7.0"
 staticfile = "0.2.0"
 
 [features]
-watch = ["handlebars-iron/watch"]
 unstable = []
+watch = ["handlebars-iron/watch"]
 
 [lib]
 name = "webfeed"
