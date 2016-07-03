@@ -1,0 +1,9 @@
+{{#partial content}}
+    <h1>RSS Feed</h1>
+    <ul>
+        {{#each config.channels}}
+            <li><a href="{{url}}">{{url}}</a></li>
+        {{/each}}
+    </ul>
+{{/partial}}
+{{~> layout~}}
