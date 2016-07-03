@@ -10,9 +10,11 @@ extern crate env_logger;
 extern crate rss;
 
 mod routes;
+mod error;
 pub mod config;
 
 use config::{Config, ConfigMiddware};
+use error::ErrorHandler;
 
 use iron::prelude::*;
 use staticfile::Static;
@@ -65,7 +67,6 @@ impl WebFeed {
         let mut router = Router::new();
         router.get("/", routes::index);
         router.get("/rss", routes::rss);
-        router.any("**", routes::error_404);
 
         let mut mount = Mount::new();
         mount.mount("/public/", Static::new(Path::new("public")))
@@ -73,6 +74,7 @@ impl WebFeed {
 
         let mut chain = Chain::new(mount);
         chain.link_before(ConfigMiddware::new(config));
+        chain.link_after(ErrorHandler::new());
         chain.link_after(watch_hbs(Arc::new(hbse)));
 
         println!("Server running at {}", host);

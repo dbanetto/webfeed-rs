@@ -16,14 +16,6 @@ pub fn index(req: &mut Request) -> IronResult<Response> {
     Ok(res)
 }
 
-pub fn error_404(_: &mut Request) -> IronResult<Response> {
-    let mut res = Response::new();
-    let mut data = BTreeMap::<String, Json>::new();
-    data.insert("error".to_owned(), "Page not found".to_json());
-    res.set_mut(Template::new("error", data))
-        .set_mut(status::NotFound);
-    Ok(res)
-}
 
 pub fn rss(req: &mut Request) -> IronResult<Response> {
     let mut res = Response::new();
