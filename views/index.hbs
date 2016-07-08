@@ -3,7 +3,9 @@
 
     <h2>RSS Feeds</h2>
     <ul>
-        <li>item</li>
+        {{#each config.channels}}
+            <li><a href="{{url}}">{{name}}</a></li>
+        {{/each}}
     </ul>
 {{/partial}}
 {{~> layout~}}
