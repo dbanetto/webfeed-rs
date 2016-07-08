@@ -20,13 +20,15 @@ impl Config {
         Config { channels: vec![] }
     }
 
-    pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, ()> { // FIXME: give proper error
+    pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, ()> {
+        // FIXME: give proper error
         // open the file
         let mut config_file = match File::open(path) {
             Ok(f) => f,
             Err(e) => {
                 println!("{:?}", e);
-                return Err(()) },
+                return Err(());
+            }
         };
 
         // prepare string to be read into
@@ -40,16 +42,15 @@ impl Config {
         // decode it as json into a Config
         match json::decode::<Config>(&config_json) {
             Ok(config) => Ok(config),
-            Err(e) =>  {
+            Err(e) => {
                 println!("{:?}", e);
                 Err(())
-            },
+            }
         }
     }
 
-    pub fn add_channel(&mut self, url: String) {
-        // FIXME: do not unwrap
-        self.channels.push(Channel::new(url).unwrap());
+    pub fn add_channel(&mut self, channel: Channel) {
+        self.channels.push(channel);
     }
 }
 
@@ -69,11 +70,15 @@ impl ToJson for Config {
 #[derive(RustcDecodable, RustcEncodable, Clone)]
 pub struct Channel {
     url: String,
+    name: String,
 }
 
 impl Channel {
-    pub fn new<U: ToString>(url: U) -> Result<Self, ()> {
-        Ok(Channel { url: url.to_string() })
+    pub fn new<N: ToString, U: ToString>(name: N, url: U) -> Result<Self, ()> {
+        Ok(Channel {
+            name: name.to_string(),
+            url: url.to_string(),
+        })
     }
 }
 
@@ -81,6 +86,7 @@ impl ToJson for Channel {
     fn to_json(&self) -> Json {
         let mut obj = BTreeMap::new();
         obj.insert("url".to_owned(), self.url.to_json());
+        obj.insert("name".to_owned(), self.name.to_json());
 
         Json::Object(obj)
     }
@@ -92,9 +98,7 @@ pub struct ConfigMiddware {
 
 impl ConfigMiddware {
     pub fn new(config: Config) -> Self {
-        ConfigMiddware {
-            config: config,
-        }
+        ConfigMiddware { config: config }
     }
 }
 

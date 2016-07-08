@@ -1,5 +1,5 @@
 {
   "channels": [
-    { "url":  "http://www.newrustacean.com/feed.xml"}
+    { "name": "New Rustacean", "url":  "http://www.newrustacean.com/feed.xml"}
   ]
 }
