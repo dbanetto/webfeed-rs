@@ -61,8 +61,7 @@ impl WebFeed {
             panic!("{:?}", r);
         }
 
-        let mut config = Config::new();
-        config.add_channel("http://www.newrustacean.com/feed.xml".to_owned());
+        let mut config = Config::from_file("config.json").unwrap();
 
         let mut router = Router::new();
         router.get("/", routes::index);

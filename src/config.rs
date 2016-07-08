@@ -1,11 +1,14 @@
 use rustc_serialize;
-use rustc_serialize::json::{ToJson, Json};
+use rustc_serialize::json::{self, ToJson, Json};
 use iron::prelude::*;
 use iron::typemap::Key;
 use iron::middleware::BeforeMiddleware;
 
 use std::string::ToString;
 use std::collections::BTreeMap;
+use std::path::Path;
+use std::io::prelude::*;
+use std::fs::File;
 
 #[derive(RustcDecodable, RustcEncodable, Clone)]
 pub struct Config {
@@ -15,6 +18,33 @@ pub struct Config {
 impl Config {
     pub fn new() -> Self {
         Config { channels: vec![] }
+    }
+
+    pub fn from_file<P: AsRef<Path>>(path: P) -> Result<Self, ()> { // FIXME: give proper error
+        // open the file
+        let mut config_file = match File::open(path) {
+            Ok(f) => f,
+            Err(e) => {
+                println!("{:?}", e);
+                return Err(()) },
+        };
+
+        // prepare string to be read into
+        let mut config_json = String::new();
+
+        // dump file into string
+        if let Err(_) = config_file.read_to_string(&mut config_json) {
+            return Err(());
+        }
+
+        // decode it as json into a Config
+        match json::decode::<Config>(&config_json) {
+            Ok(config) => Ok(config),
+            Err(e) =>  {
+                println!("{:?}", e);
+                Err(())
+            },
+        }
     }
 
     pub fn add_channel(&mut self, url: String) {
@@ -69,13 +99,13 @@ impl ConfigMiddware {
 }
 
 impl BeforeMiddleware for ConfigMiddware {
-    fn before(&self, req: &mut Request) -> IronResult<()> { 
+    fn before(&self, req: &mut Request) -> IronResult<()> {
         let config = self.config.clone();
         req.extensions.insert::<Config>(config);
         Ok(())
     }
 
-    fn catch(&self, _: &mut Request, err: IronError) -> IronResult<()> { 
-        Err(err) 
+    fn catch(&self, _: &mut Request, err: IronError) -> IronResult<()> {
+        Err(err)
     }
 }
