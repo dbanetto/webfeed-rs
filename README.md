@@ -19,7 +19,7 @@ There are two ways to run the server:
 
  * `cargo run --features watch` - with auto-updating templates
 
-After running either method open `[http://localhost:3000/](http://localhost:3000/)` in your web browser.
+After running either method open [`http://localhost:3000/`](http://localhost:3000/) in your web browser.
 
 If the application panics on startup, ensure you are running it from
 the base directory with `views` and `public` in it.
