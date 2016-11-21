@@ -61,11 +61,11 @@ impl WebFeed {
             panic!("{:?}", r);
         }
 
-        let mut config = Config::from_file("config.json").unwrap();
+        let config = Config::from_file("config.json").unwrap();
 
         let mut router = Router::new();
         router.get("/", routes::index);
-        router.get("/rss", routes::rss);
+        router.get("/feed.xml", routes::rss);
 
         let mut mount = Mount::new();
         mount.mount("/public/", Static::new(Path::new("public")))

@@ -6,13 +6,14 @@ use iron::middleware::BeforeMiddleware;
 
 use std::string::ToString;
 use std::collections::BTreeMap;
+use std::slice::Iter;
 use std::path::Path;
 use std::io::prelude::*;
 use std::fs::File;
 
 #[derive(RustcDecodable, RustcEncodable, Clone)]
 pub struct Config {
-    pub channels: Vec<Channel>,
+    channels: Vec<Channel>,
 }
 
 impl Config {
@@ -52,6 +53,10 @@ impl Config {
     pub fn add_channel(&mut self, channel: Channel) {
         self.channels.push(channel);
     }
+
+    pub fn channels(&self) -> Iter<Channel> {
+        self.channels.iter()
+    }
 }
 
 impl Key for Config {
@@ -69,8 +74,8 @@ impl ToJson for Config {
 
 #[derive(RustcDecodable, RustcEncodable, Clone)]
 pub struct Channel {
-    url: String,
-    name: String,
+    pub url: String,
+    pub name: String,
 }
 
 impl Channel {
