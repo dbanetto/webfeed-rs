@@ -64,8 +64,8 @@ impl WebFeed {
         let config = Config::from_file("config.json").unwrap();
 
         let mut router = Router::new();
-        router.get("/", routes::index);
-        router.get("/feed.xml", routes::rss);
+        router.get("/", routes::index, "index");
+        router.get("/feed.xml", routes::rss, "rss");
 
         let mut mount = Mount::new();
         mount.mount("/public/", Static::new(Path::new("public")))
